@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Pegar a útima versão em https://github.com/tensorflow/tfjs -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.11.2"></script>
+    <!-- TensorFlow.js -->
+    <title>Classificação | TensorFlow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+          
+            justify-content: center;
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #output_field {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #333;
+            font-size: 20px;
+        }
+    </style>
+  </head>
+  <body>
+    <h1>Classificação | TensorFlow</h1>
+    <div id="output_field"></div>
+    <button onclick="learnLinear()">Treinar Modelo Linear</button>
+  </body>
+  <script>
+    async function learnLinear() {
+      alert("Aprendendo...");
+      const model = tf.sequential(); // simples pilha de camadas sem bifurcações
+      model.add(tf.layers.dense({ units: 1, inputShape: [1] })); // camada densa com uma unidade e uma entrada uma camada e um nó (rede simples)
+
+      model.compile({
+        loss: "meanSquaredError", // função de perda (erro quadrático médio)
+        optimizer: "sgd", // otimizador (descida do gradiente estocástico) Metodologia de otimização
+      });
+
+      const xs = tf.tensor2d([-1, 0, 1, 2, 3, 4], [6, 1]); // tensor de entrada
+      const ys = tf.tensor2d([-3, -1, 1, 3, 5, 7], [6, 1]); // tensor de saída
+
+      await model.fit(xs, ys, { epochs: 500 }); // treinamento do modelo
+
+      const prediction = model.predict(tf.tensor2d([10], [1, 1])).dataSync()[0];
+      document.getElementById(
+        "output_field"
+      ).innerText = `Predição para x = 10: ${prediction}`;
+    }
+  </script>
+</html>
