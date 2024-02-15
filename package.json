@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "ml-dataset-iris": "^1.2.1"
+  }
+}

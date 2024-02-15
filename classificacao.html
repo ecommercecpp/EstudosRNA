@@ -5,43 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Pegar a útima versão em https://github.com/tensorflow/tfjs -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.11.2"></script>
+    <script type="module" src="irisData.js"></script>
     <!-- TensorFlow.js -->
     <title>Classificação | TensorFlow</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-          
-            justify-content: center;
-        }
-        h1 {
-            color: #333;
-        }
-        button {
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        #output_field {
-            margin: 20px;
-            padding: 20px;
-            border: 1px solid #333;
-            font-size: 20px;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+
+        justify-content: center;
+      }
+      h1 {
+        color: #333;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 10px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      #output_field {
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid #333;
+        font-size: 20px;
+      }
     </style>
   </head>
   <body>
     <h1>Classificação | TensorFlow</h1>
     <div id="output_field"></div>
     <button onclick="learnLinear()">Treinar Modelo Linear</button>
+    <button onclick={getIrisData(.8)}>Treinar Modelo de Classificação</button>
   </body>
   <script>
     async function learnLinear() {
@@ -60,6 +62,7 @@
       await model.fit(xs, ys, { epochs: 500 }); // treinamento do modelo
 
       const prediction = model.predict(tf.tensor2d([10], [1, 1])).dataSync()[0];
+      
       document.getElementById(
         "output_field"
       ).innerText = `Predição para x = 10: ${prediction}`;
